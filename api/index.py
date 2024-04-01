@@ -120,6 +120,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(f.read())
         else:
             self.send_error(404, "File not found")
+        return
 
     def do_POST(self):
         if self.path == '/upload':
@@ -145,14 +146,16 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write("Firmware version updated successfully.".encode())
         else:
             self.send_error(404, "File not found")
+        return
 
 def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f"Server started on port {port}")
     httpd.serve_forever()
+    return 
 
-if __name__ == "__main__":
-    if not os.path.exists(UPLOAD_DIRECTORY):
-        os.makedirs(UPLOAD_DIRECTORY)
-    run()
+# if __name__ == "__main__":
+#     if not os.path.exists(UPLOAD_DIRECTORY):
+#         os.makedirs(UPLOAD_DIRECTORY)
+#     run()
